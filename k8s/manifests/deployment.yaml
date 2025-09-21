@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brass-web-deployment
+  labels:
+    app: brass-web-app
+    type: frontend
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: brass-web-app
+      type: frontend
+  template:
+    metadata:
+      labels:
+        app: brass-web-app
+        type: frontend
+    spec:
+      containers:
+        - name: brass-web-app
+          image: techadvocate247/brass-web:0.1   # <-- use your pushed image
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+
