@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: brass-web-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: brass-web.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: brass-web-service   # must match your Service name
+            port:
+              number: 8082            # must match Service port exposing 8082 (ClusterIP), So in Ingress, backend.service.port.number should be 8082.

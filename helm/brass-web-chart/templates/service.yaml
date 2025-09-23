@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: brass-web-service
+spec:
+  selector:
+    app: brass-web-app
+    type: frontend
+  ports:
+    - protocol: TCP
+      port: 8082      # Clients talk to Service on 8082
+      targetPort: 80  # Service forwards to container’s port 80
+      # nodePort: 31818
+  # type: NodePort
+  type: ClusterIP     # Service (ClusterIP) forwards traffic from port 8082 → Pod port 80
+
+
