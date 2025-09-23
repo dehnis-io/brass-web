@@ -6,7 +6,7 @@ replicaCount: 3
 
 image:
   repository: techadvocate247/brass-web
-  tag: "17958669407"
+  tag: "17961006468"
   pullPolicy: IfNotPresent
 
 # =====================================================
