@@ -12,6 +12,7 @@ on:
 
 jobs:
   docker-build-push:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"   # ignore [skip-ci] commits
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,6 +27,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}     # save your docker user name in the repo's secret and variable section 
           password: ${{ secrets.DOCKERHUB_TOKEN }}        # generate token from docker hub and save as a variable in the secret and variable section
 
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -36,6 +41,7 @@ jobs:
 
 
   update-helm-tag:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')" 
     runs-on: ubuntu-latest
     needs: docker-build-push
     steps:
@@ -53,5 +59,9 @@ jobs:
           git config --global user.email "macdehnis301@gmail.com"
           git config --global user.name "dennis.io"
           git add helm/brass-web-chart/values.yaml
-          git commit -m "Update tag in Helm chart"
+          git commit -m "Update tag in Helm chart $(date '+%Y-%m-%d %H:%M:%S') [skip ci]" || echo "No changes to commit"
           git push
+
+# Added [skip ci] in the commit message
+# Ignore commits that contain [skip ci]
+# This prevents the Helm update commit from retriggering the pipeline
