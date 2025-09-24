@@ -59,7 +59,7 @@ jobs:
           git config --global user.email "macdehnis301@gmail.com"
           git config --global user.name "dennis.io"
           git add helm/brass-web-chart/values.yaml
-          git commit -m "Update tag in Helm chart $(date '+%Y-%m-%d %H:%M:%S') [skip ci]" || echo "No changes to commit"
+          git commit -m "Git action updated image tag in Helm chart at $(date '+%Y-%m-%d %H:%M:%S') [skip ci]" || echo "No changes to commit"
           git push
 
 # Added [skip ci] in the commit message
